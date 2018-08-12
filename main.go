@@ -1,42 +1,32 @@
 package main
 
 import (
-	"fmt"
-	"github.com/kirinlabs/HttpRequest"
-	"bitAnyConv/com"
+	"bitAnyConv/CMCDataInterface"
+	"bitAnyConv/infoStruct"
+	"time"
 )
 
-
-
 func main(){
-	param := make(map[string]string)
-	param["start"] = "1"
-	param["limit"] = "100"
-	param["convert"] = "USD"
+	//param := make(map[string]string)
+	//param["start"] = "1"
+	//param["limit"] = "100"
+	//param["convert"] = "USD"
+	//
+	//res, err := com.GetDataByHttp("cryptocurrency/listings/latest", param)
+	//fmt.Println(res, err)
 
-	res, err := com.GetDataByHttp("cryptocurrency/listings/latest", param)
-	fmt.Println(res)
-	return
 
-	url := "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=100&convert=USD"
+	info := infoStruct.STCoinMetadata{}
+	info.Symbol = "BTC"
+	info.ID = 1
+	info.Cmc_rank = 1
+	info.Date_added = time.Now()
+	info.Max_supply = 1
+	info.Name = "Bitcoin"
+	info.Slug = "bitcoin"
+	info.Total_supply = 1
 
-	req := HttpRequest.NewRequest()
-	req.SetHeaders(map[string]string{
-		"Content-Type": "application/json",
-		"X-CMC_PRO_API_KEY": "0a5fcb4e-2b4e-4681-9814-731af7a5222b",
-	})
-
-	fmt.Println(req)
-
-	ress, err := req.Get(url, nil)
-	if nil != err{
-		fmt.Println("get failed!", err.Error())
-		return
-	}
-	body, err := ress.Body()
-
-	fmt.Println(string(body))
-
+	CMCDataInterface.GetCoinHistory(&info, time.Unix(1534052593, 0), time.Unix(1534053193, 0), 10)
 
 
 }
